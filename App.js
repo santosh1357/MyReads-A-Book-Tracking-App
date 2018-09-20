@@ -68,11 +68,11 @@ componentDidMount(){
         dbShelf = "wantToRead"
       }
       //update the backend DB
-      BooksAPI.update({id: book.id}, dbShelf)   
+      BooksAPI.update({id: book.id}, dbShelf).then(() => { this.setState({books:booksCopy}) })   
  }
  searchBooks = (queryString) => {
      BooksAPI.search(queryString).then( ( response ) => {
-       if(response){
+       if(Object.prototype.toString.call(response) === '[object Array]'){
           response.forEach( item => {
             const filteredBookIndex = this.state.books.findIndex( i => i.id === item.id )
             if(filteredBookIndex !== -1){
@@ -87,8 +87,11 @@ componentDidMount(){
                   item.setShelf = "Want to Read"
                 }  
           })
-       }
-    this.setState({searchResults:response})
+          this.setState({searchResults:response})
+       } else{
+          document.getElementsByName('searchInput')[0].value = "";
+          alert('Invalid Search Query!')
+       }   
     })
  } 
 clearSearch = () => {
