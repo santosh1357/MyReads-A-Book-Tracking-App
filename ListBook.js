@@ -17,7 +17,8 @@ class ListBook extends Component {
     this.props.updateBookShelf(i, e.target.value)
   }
 	render(){
-    const { book, updateBookShelf } = this.props
+    const { book } = this.props
+    console.log(book)
 		return(
         <ol className="books-grid">
           {book.map( (item)  => (
@@ -25,7 +26,7 @@ class ListBook extends Component {
                 <div className="book">
                   {item.shelf && (
                       <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${item.imageLinks.smallThumbnail})` }}></div>
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(item.imageLinks && item.imageLinks.smallThumbnail) || "book.jpg"})` }}></div>
                         <div className="book-shelf-changer">                         
                           <select value={item.setShelf} onChange={ (e) => this.onShelfMove(item, e)} >
                             <option value="move" >Move to...</option>
@@ -39,7 +40,7 @@ class ListBook extends Component {
                     )}
                   {!item.shelf && (
                     <div className="book-top">
-                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${item.imageLinks.smallThumbnail})` }}></div>
+                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(item.imageLinks && item.imageLinks.smallThumbnail) || "book.jpg"})` }}></div>
                       <div className="book-shelf-changer">
                         <select onChange={ (e) => this.onShelfMove(item, e)} value="none">
                           <option value="move" >Move to...</option>
